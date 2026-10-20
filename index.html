@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Airboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="stage" id="stage">
+    <video id="video" class="layer" playsinline muted></video>
+    <canvas id="ink" class="layer"></canvas>
+    <canvas id="overlay" class="layer"></canvas>
+
+    <div class="hud">
+      <span class="chip" id="gesture" data-mode="none">No hand</span>
+      <span class="chip" id="fps">-- fps</span>
+    </div>
+
+    <div class="gate" id="gate">
+      <div>
+        <h1>Draw in the air</h1>
+        <p>Your camera feed stays in this tab. Hand tracking runs on your device.</p>
+        <ul>
+          <li><b>Index finger up</b>draw</li>
+          <li><b>Pinch thumb and index</b>erase</li>
+          <li><b>Fist</b>pause</li>
+          <li><b>Index and middle up, hold</b>clear board</li>
+        </ul>
+        <button class="primary" id="start">Start camera</button>
+        <p class="err" id="err" role="alert"></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="bar" role="toolbar" aria-label="Drawing controls">
+    <div class="group" id="swatches" role="group" aria-label="Brush color"></div>
+    <label>Size <input type="range" id="size" min="2" max="28" value="7"></label>
+    <div class="group">
+      <button class="btn" id="glow" aria-pressed="true">Glow</button>
+      <button class="btn" id="skeleton" aria-pressed="false">Hand</button>
+      <button class="btn" id="cam" aria-pressed="true">Video</button>
+    </div>
+    <div class="group">
+      <button class="btn" id="undo">Undo</button>
+      <button class="btn" id="clear">Clear</button>
+      <button class="btn" id="save">Save PNG</button>
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
