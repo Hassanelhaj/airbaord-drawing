@@ -53,7 +53,8 @@ function tick() {
     if (state.gesture === "draw" || state.gesture === "erase") {
       ink.add(state.tip);
     } else if (
-      state.gesture === "clear" && state.clearArmed &&
+      state.gesture === "clear" &&
+      state.clearArmed &&
       now - state.clearStart > CFG.clearHoldMs
     ) {
       ink.clear();
@@ -75,18 +76,24 @@ function tick() {
   }
 }
 
-// Fires once per decoded camera frame, so we never process the same frame twice.
+// Fires once per decoded camera frame, so the same frame is never processed twice.
 const schedule = () =>
   "requestVideoFrameCallback" in video
     ? video.requestVideoFrameCallback(tick)
     : requestAnimationFrame(tick);
 
 bindToolbar({ ink, video });
+
 bindStart(async () => {
-  const [{ width, height }, model] = await Promise.all([startCamera(video), loadHandLandmarker()]);
+  const [{ width, height }, model] = await Promise.all([
+    startCamera(video),
+    loadHandLandmarker(),
+  ]);
   landmarker = model;
   ink.resize(width, height);
   overlay.resize(width, height);
+  // Match the stage to the camera's real shape (portrait on phones, wide on laptops)
+  document.documentElement.style.setProperty("--ar", width / height);
   hideGate();
   schedule();
 });
